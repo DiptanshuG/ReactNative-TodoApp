@@ -1,6 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { ScrollView } from "react-native-web";
+import Header from "./src/components/Header";
 
 export default function App() {
   const [todoItem, setTodoItem] = useState("");
@@ -13,35 +15,41 @@ export default function App() {
 
   const addTodoList = () => {
     setTodoLst([...todoLst, todoItem]);
-    setTodoItem("")
+    setTodoItem("");
   };
   console.log(todoLst);
 
-  const disableButton=todoItem.length===0
+  const disableButton = todoItem.length === 0;
 
   return (
+    <View>
+      <Header title="Todo App" />
+      <View style={styles.container}>
+        <View style={{ fontWeight: "Bold" }}>Write Your Todos</View>
+        <View>
+          <TextInput
+            placeholder="enter a todo"
+            style={styles.textInput}
+            onChangeText={textHandler}
+            value={todoItem}
+          />
 
-    <View style={styles.container}>
-      <View style={{fontWeight:"Bold",}}>Write Your Todos</View>
-      <View>
-        <TextInput
-          placeholder="enter a todo"
-          style={styles.textInput}
-          onChangeText={textHandler}
-          value={todoItem}
-        />
-
-        <Button disabled={disableButton} title="Add todo" onPress={addTodoList} />
-      </View>
-      <View>
-        {todoLst.map((element, i) => {
-          return (
-            <View style={styles.todo}>
-              {" "}
-              <Text key={i}>{element}</Text>
-            </View>
-          );
-        })}
+          <Button
+            disabled={disableButton}
+            title="Add todo"
+            onPress={addTodoList}
+          />
+        </View>
+        <ScrollView>
+          {todoLst.map((element, i) => {
+            return (
+              <View style={styles.todo}>
+                {" "}
+                <Text key={i}>{element}</Text>
+              </View>
+            );
+          })}
+        </ScrollView>
       </View>
     </View>
   );
@@ -49,7 +57,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 60,
+    paddingTop: 20,
     paddingHorizontal: 20,
   },
   textInput: {
